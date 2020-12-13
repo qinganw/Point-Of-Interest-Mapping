@@ -1,0 +1,88 @@
+#lang dssl2
+
+# HW7: Trip Planner
+#
+# ** You must work on your own for this assignment. **
+
+# Your program will most likely need a number of data structures, many of
+# which you've implemented in previous homeworks.
+# We have provided you with compiled versions of homework 3, 4, 5, and 6
+# solutions. You can import them as you did in homework 6.
+# Be sure to extract the `hw7-lib` archive is the same directory as this file.
+# You may also import libraries from the DSSL2 standard library (e.g., cons,
+# array, etc.).
+
+import cons
+
+#Honor Code
+
+let eight_principles = ["Know your rights.",
+"Acknowledge your sources.",
+"Protect your work.",
+"Avoid suspicion.",
+"Do your own work.",
+"Never falsify a record or permit another person to do so.",
+"Never fabricate data, citations, or experimental results.",
+"Always tell the truth when discussing your work with your instructor."]
+
+
+### Basic Vocabulary Types ###
+
+#  - Latitudes and longitudes are numbers:
+let Lat?  = num?
+let Lon?  = num?
+#  - Point-of-interest categories and names are strings:
+let Cat?  = str?
+let Name? = str?
+
+# ListC[T] is a list of `T`s (linear time):
+let ListC = Cons.ListC
+
+# List of unspecified element type (constant time):
+let List? = Cons.list?
+
+
+### Input Types ###
+
+#  - a SegmentVector  is VecC[SegmentRecord]
+#  - a PointVector    is VecC[PointRecord]
+# where
+#  - a SegmentRecord  is [Lat?, Lon?, Lat?, Lon?]
+#  - a PointRecord    is [Lat?, Lon?, Cat?, Name?]
+
+
+### Output Types ###
+
+#  - a NearbyList     is ListC[PointRecord]; i.e., one of:
+#                       - None
+#                       - cons(PointRecord, NearbyList)
+#  - a PositionList   is ListC[Position]; i.e., one of:
+#                       - None
+#                       - cons(Position, PositionList)
+# where
+#  - a PointRecord    is [Lat?, Lon?, Cat?, Name?]  (as above)
+#  - a Position       is [Lat?, Lon?]
+
+
+# Interface for trip routing and searching:
+interface TRIP_PLANNER:
+    # Finds no more than `n` points-of-interest of the given category
+    # nearest to the source position. (Ties for nearest are broken
+    # arbitrarily.)
+    def find_nearby(
+            self,
+            src_lat:  Lat?,     # starting latitude
+            src_lon:  Lon?,     # starting longitude
+            dst_cat:  Cat?,     # point-of-interest category
+            n:        nat?      # maximum number of results
+        )   ->        List?     # list of nearby POIs (NearbyList)
+
+    # Finds the shortest route, if any, from the given source position
+    # (latitude and longitude) to the point-of-interest with the given
+    # name. (Returns `None` if no path can be found.)
+    def find_route(
+            self,
+            src_lat:  Lat?,     # starting latitude
+            src_lon:  Lon?,     # starting longitude
+            dst_name: Name?     # name of goal
+        )   ->        List?     # path to goal (PositionList)

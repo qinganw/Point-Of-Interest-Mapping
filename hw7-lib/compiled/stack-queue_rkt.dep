@@ -1,0 +1,1 @@
+("7.8" racket ("69e42cad79d093ad09828eedea2dd7be911e631c" . "9f1667cfd5035eb1c6afd5f9cd5828ef0bbcd9f1") (collects #"dssl2" #"lang" #"reader.rkt") (collects #"dssl2" #"language.rkt") (collects #"dssl2" #"private" #"rte.rkt") (collects #"racket" #"base.rkt") (collects #"racket" #"runtime-config.rkt"))
